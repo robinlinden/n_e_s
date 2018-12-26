@@ -1,5 +1,7 @@
 ---
-Checks:          '*'
+Checks: '
+  *,
+  -google-build-using-namespace'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false

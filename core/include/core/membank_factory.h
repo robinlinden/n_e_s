@@ -1,5 +1,3 @@
-// Copyright 2018 Robin Linden <dev@robinlinden.eu>
-
 #pragma once
 
 #include "core/imembank.h"
@@ -9,11 +7,13 @@
 
 namespace n_e_s::core {
 
+class IPpu;
+
 using MemBankList = std::vector<std::unique_ptr<IMemBank>>;
 
 class MemBankFactory {
 public:
-    static MemBankList create_nes_mem_banks();
+    static MemBankList create_nes_mem_banks(IPpu *ppu);
 };
 
 } // namespace n_e_s::core

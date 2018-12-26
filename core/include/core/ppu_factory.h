@@ -1,6 +1,3 @@
-// Copyright 2018 Evil Corp contributors
-// Copyright 2018 Robin Linden <dev@robinlinden.eu>
-
 #pragma once
 
 #include "core/immu.h"
@@ -12,7 +9,7 @@ namespace n_e_s::core {
 
 class PpuFactory {
 public:
-    static std::unique_ptr<IPpu> create();
+    static std::unique_ptr<IPpu> create(PpuRegisters *registers);
 };
 
 } // namespace n_e_s::core
