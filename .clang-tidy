@@ -1,7 +1,15 @@
 ---
 Checks: '
   *,
-  -google-build-using-namespace'
+  -fuchsia-default-arguments, # Makes the standard library unusable.
+  -google-build-using-namespace, # Maybe get rid of this one eventually?
+  -readability-implicit-bool-conversion,
+  # These are disabled because of Google Test
+  -cert-err58-cpp,
+  -cppcoreguidelines-owning-memory,
+  -cppcoreguidelines-pro-type-vararg,
+  -cppcoreguidelines-special-member-functions,
+  -fuchsia-statically-constructed-objects'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
