@@ -1,13 +1,9 @@
 ---
 Checks: '
   *,
-  # Makes the standard library unusable.
   -fuchsia-default-arguments,
-  # Maybe get rid of this one eventually?
   -google-build-using-namespace,
-  # I don't like this one.
   -readability-implicit-bool-conversion,
-  # These are disabled because of Google Test
   -cert-err58-cpp,
   -cppcoreguidelines-owning-memory,
   -cppcoreguidelines-pro-type-vararg,
