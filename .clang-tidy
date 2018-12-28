@@ -8,7 +8,9 @@ Checks: '
   -cppcoreguidelines-owning-memory,
   -cppcoreguidelines-pro-type-vararg,
   -cppcoreguidelines-special-member-functions,
-  -fuchsia-statically-constructed-objects'
+  -fuchsia-statically-constructed-objects,
+  -hicpp-special-member-functions,
+  -hicpp-vararg'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
