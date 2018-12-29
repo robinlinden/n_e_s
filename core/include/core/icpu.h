@@ -4,14 +4,14 @@
 
 namespace n_e_s::core {
 
-const uint8_t C_FLAG = 1 << 0; // carry
-const uint8_t Z_FLAG = 1 << 1; // zero
-const uint8_t I_FLAG = 1 << 2; // interrupt disable
-const uint8_t D_FLAG = 1 << 3; // decimal mode
-const uint8_t B_FLAG = 1 << 4; // break
-const uint8_t FLAG_5 = 1 << 5; // unused, always 1
-const uint8_t V_FLAG = 1 << 6; // overflow
-const uint8_t N_FLAG = 1 << 7; // negative
+const uint8_t C_FLAG = 1u << 0; // carry
+const uint8_t Z_FLAG = 1u << 1; // zero
+const uint8_t I_FLAG = 1u << 2; // interrupt disable
+const uint8_t D_FLAG = 1u << 3; // decimal mode
+const uint8_t B_FLAG = 1u << 4; // break
+const uint8_t FLAG_5 = 1u << 5; // unused, always 1
+const uint8_t V_FLAG = 1u << 6; // overflow
+const uint8_t N_FLAG = 1u << 7; // negative
 
 struct Registers {
     uint16_t pc; // program counter
