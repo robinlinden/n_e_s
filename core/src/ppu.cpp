@@ -22,7 +22,7 @@ void Ppu::write_byte(uint16_t addr, uint8_t) {
 void Ppu::execute() {}
 
 void Ppu::clear_vblank_flag() {
-    registers_->status &= ~(1 << 7);
+    registers_->status &= ~(1u << 7);
 }
 
 } // namespace n_e_s::core

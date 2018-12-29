@@ -12,11 +12,11 @@ const uint16_t kResetAddress = 0xFFFC; // This is where the reset routine is.
 const uint16_t kBrkAddress = 0xFFFE; // This is where the break routine is.
 
 constexpr bool is_negative(uint8_t byte) {
-    return byte & (1 << 7);
+    return byte & (1u << 7);
 }
 
 constexpr uint8_t low_bits(uint8_t byte) {
-    return byte & ~(1 << 7);
+    return byte & ~(1u << 7);
 }
 
 constexpr int8_t to_signed(uint8_t byte) {
@@ -101,9 +101,9 @@ void Mos6502::execute() {
         case Instruction::LSR:
             if (opcode.addressMode == AddressMode::Accumulator) {
                 pipeline_.push([=]() {
-                    set_carry(registers_->a & 1);
-                    registers_->a &= ~1;
-                    registers_->a >>= 1;
+                    set_carry(registers_->a & 1u);
+                    registers_->a &= ~1u;
+                    registers_->a >>= 1u;
                     set_zero(registers_->a);
                     clear_flag(N_FLAG);
                 });
