@@ -7,7 +7,7 @@ using namespace n_e_s::core;
 
 namespace n_e_s::core {
 
-bool operator==(const PpuRegisters &a, const PpuRegisters &b) {
+bool operator==(const IPpu::Registers &a, const IPpu::Registers &b) {
     return a.ctrl == b.ctrl && a.mask == b.mask && a.status == b.status &&
            a.oamaddr == b.oamaddr && a.oamdata == b.oamdata &&
            a.scroll == b.scroll && a.data == b.data;
@@ -21,10 +21,16 @@ class PpuTest : public ::testing::Test {
 public:
     PpuTest() : registers(), ppu(PpuFactory::create(&registers)), expected() {}
 
-    PpuRegisters registers;
+    void step_execution(uint32_t cycles) {
+        for (uint32_t i = 0; i < cycles; ++i) {
+            ppu->execute();
+        }
+    }
+
+    IPpu::Registers registers;
     std::unique_ptr<IPpu> ppu;
 
-    PpuRegisters expected;
+    IPpu::Registers expected;
 };
 
 TEST_F(PpuTest, read_invalid_address) {
@@ -48,6 +54,26 @@ TEST_F(PpuTest, clear_status_when_reading_status) {
     expected.status = 0x7F;
 
     ppu->read_byte(0x2002);
+
+    EXPECT_EQ(expected, registers);
+}
+
+TEST_F(PpuTest, set_vblank_flag_during_vertical_blanking) {
+    registers.status = 0x00;
+    expected.status = 0x80;
+
+    // The VBlank flag is set at the second cycle of scanline 241
+    step_execution(341 * 241 + 2);
+
+    EXPECT_EQ(expected, registers);
+}
+
+TEST_F(PpuTest, clear_vblank_flag_during_pre_render_line) {
+    registers.status = 0x00;
+    expected.status = 0x00;
+
+    // The VBlank flag is cleared at the second cycle of scanline 261
+    step_execution(341 * 261 + 2);
 
     EXPECT_EQ(expected, registers);
 }
