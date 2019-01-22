@@ -11,6 +11,8 @@ add_library(${PROJECT_NAME}
     include/core/mmu_factory.h
     include/core/ppu_factory.h
     src/cpu_factory.cpp
+    src/debug_mmu.cpp
+    src/debug_mmu.h
     src/invalid_address.cpp
     src/mapped_membank.h
     src/membank.h
