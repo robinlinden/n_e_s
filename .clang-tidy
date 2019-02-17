@@ -1,18 +1,19 @@
 ---
 Checks: '
   *,
-  -fuchsia-default-arguments,
-  -google-build-using-namespace,
-  -readability-implicit-bool-conversion,
   -cert-err58-cpp,
+  -clang-analyzer-cplusplus.NewDeleteLeaks,
   -cppcoreguidelines-avoid-goto,
   -cppcoreguidelines-owning-memory,
   -cppcoreguidelines-pro-type-vararg,
   -cppcoreguidelines-special-member-functions,
+  -fuchsia-default-arguments,
   -fuchsia-statically-constructed-objects,
+  -google-build-using-namespace,
   -hicpp-avoid-goto,
   -hicpp-special-member-functions,
-  -hicpp-vararg'
+  -hicpp-vararg,
+  -readability-implicit-bool-conversion'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
