@@ -100,15 +100,22 @@ matrix:
             - llvm-toolchain-trusty-7
           packages:
             - clang-7
-            - iwyu
+            - libclang-7-dev
             - libstdc++-7-dev
+            - llvm-7-dev
+
       env:
         - MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Debug"
-        - CMAKE_EXTRA_OPTIONS="-DCMAKE_CXX_INCLUDE_WHAT_YOU_USE=$(which iwyu)"
+      before_install:
+        - git clone https://github.com/include-what-you-use/include-what-you-use.git -b clang_7.0
+        - cd include-what-you-use
+        - mkdir build && cd build
+        - CXX=clang++-7 cmake -G "Unix Makefiles" -DCMAKE_PREFIX_PATH=/usr/lib/llvm-7 ..
+        - cmake --build . --parallel 2
+        - export CMAKE_EXTRA_OPTIONS="-DCMAKE_CXX_INCLUDE_WHAT_YOU_USE=/usr/lib/llvm-7/Release/bin/include-what-you-use"
+
 
 before_script:
-  - clang++-7 -print-resource-dir
-  - $(which iwyu) -print-resource-dir
   - source flags.sh
   - mkdir _build && cd _build
   - eval "${MATRIX_EVAL}"
