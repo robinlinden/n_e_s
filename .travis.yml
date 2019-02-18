@@ -92,7 +92,23 @@ matrix:
             - libstdc++-8-dev
       env: MATRIX_EVAL="CXX=clang++-8 BUILD_TYPE=Debug"
 
+    - name: "include what you use"
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-7
+          packages:
+            - clang-7
+            - iwyu
+            - libstdc++-7-dev
+      env:
+        - MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Debug"
+        - CMAKE_EXTRA_OPTIONS="-DCMAKE_CXX_INCLUDE_WHAT_YOU_USE=$(which iwyu)"
+
 before_script:
+  - clang++-7 -print-resource-dir
+  - $(which iwyu) -print-resource-dir
   - source flags.sh
   - mkdir _build && cd _build
   - eval "${MATRIX_EVAL}"
