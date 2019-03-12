@@ -100,12 +100,10 @@ matrix:
             - llvm-toolchain-xenial-8
           packages:
             - clang-8
-            - include-what-you-use
-      env:
-        - MATRIX_EVAL="CXX=clang++-8 BUILD_TYPE=Debug"
-      before_install:
-        - export CMAKE_EXTRA_OPTIONS="-DCMAKE_CXX_INCLUDE_WHAT_YOU_USE=include-what-you-use"
-
+            - iwyu
+      script:
+        - CXX=clang++-8 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+        - iwyu_tool.py -p .
 
 before_script:
   - source flags.sh
