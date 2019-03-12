@@ -3,94 +3,94 @@ dist: xenial
 
 matrix:
   include:
-    - name: "clang-tidy 7"
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-7
-          packages:
-            - clang-7
-            - clang-tidy-7
-            - libstdc++-7-dev
-      script:
-        - CXX=clang++-7 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
-        - run-clang-tidy-7.py -q -p . "application|core|nes" -header-filter=".*"
+    # - name: "clang-tidy 7"
+    #   addons:
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #         - llvm-toolchain-xenial-7
+    #       packages:
+    #         - clang-7
+    #         - clang-tidy-7
+    #         - libstdc++-7-dev
+    #   script:
+    #     - CXX=clang++-7 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+    #     - run-clang-tidy-7.py -q -p . "application|core|nes" -header-filter=".*"
 
-    - name: "clang-format"
-      addons:
-        apt:
-          packages:
-            - clang-format
-      before_script: []
-      script:
-        - find application core nes -name *.h -o -name *.cpp | xargs clang-format -style=file -i
-        - git diff --exit-code
+    # - name: "clang-format"
+    #   addons:
+    #     apt:
+    #       packages:
+    #         - clang-format
+    #   before_script: []
+    #   script:
+    #     - find application core nes -name *.h -o -name *.cpp | xargs clang-format -style=file -i
+    #     - git diff --exit-code
 
-    - name: "gcc 7"
-      addons: &gcc7
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-7
-      env: MATRIX_EVAL="CXX=g++-7 BUILD_TYPE=Debug"
+    # - name: "gcc 7"
+    #   addons: &gcc7
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #       packages:
+    #         - g++-7
+    #   env: MATRIX_EVAL="CXX=g++-7 BUILD_TYPE=Debug"
 
-    - name: "gcc 7 release"
-      addons: *gcc7
-      env: MATRIX_EVAL="CXX=g++-7 BUILD_TYPE=Release"
+    # - name: "gcc 7 release"
+    #   addons: *gcc7
+    #   env: MATRIX_EVAL="CXX=g++-7 BUILD_TYPE=Release"
 
-    - name: "gcc 7 coverage"
-      addons: *gcc7
-      before_install: pip install gcovr --user
-      script:
-        - CXX=g++-7 CXXFLAGS="-fprofile-arcs -ftest-coverage" cmake ..
-        - make
-        - ctest --output-on-failure
-        - gcovr -p --root .. --fail-under-line=95 --exclude '_deps/' --exclude '(.+/)?test/'
+    # - name: "gcc 7 coverage"
+    #   addons: *gcc7
+    #   before_install: pip install gcovr --user
+    #   script:
+    #     - CXX=g++-7 CXXFLAGS="-fprofile-arcs -ftest-coverage" cmake ..
+    #     - make
+    #     - ctest --output-on-failure
+    #     - gcovr -p --root .. --fail-under-line=95 --exclude '_deps/' --exclude '(.+/)?test/'
 
-    - name: "gcc 8"
-      addons: &gcc8
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-8
-      env: MATRIX_EVAL="CXX=g++-8 BUILD_TYPE=Debug"
+    # - name: "gcc 8"
+    #   addons: &gcc8
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #       packages:
+    #         - g++-8
+    #   env: MATRIX_EVAL="CXX=g++-8 BUILD_TYPE=Debug"
 
-    - name: "clang 7"
-      addons: &clang7
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-7
-          packages:
-            - clang-7
-            - libstdc++-7-dev
-      env: MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Debug"
+    # - name: "clang 7"
+    #   addons: &clang7
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #         - llvm-toolchain-xenial-7
+    #       packages:
+    #         - clang-7
+    #         - libstdc++-7-dev
+    #   env: MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Debug"
 
-    - name: "clang 7 release"
-      addons: *clang7
-      env: MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Release"
+    # - name: "clang 7 release"
+    #   addons: *clang7
+    #   env: MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Release"
 
-    - name: "clang 7 sanitizers"
-      addons: *clang7
-      env:
-        - MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Debug"
-        - CMAKE_EXTRA_OPTIONS="-DADDRESS_SANITIZER=ON -DUNDEFINED_SANITIZER=ON"
-        - UBSAN_OPTIONS="print_stacktrace=1:halt_on_error=1"
-        - LLVM_SYMBOLIZER_PATH="$(which llvm-symbolizer)"
+    # - name: "clang 7 sanitizers"
+    #   addons: *clang7
+    #   env:
+    #     - MATRIX_EVAL="CXX=clang++-7 BUILD_TYPE=Debug"
+    #     - CMAKE_EXTRA_OPTIONS="-DADDRESS_SANITIZER=ON -DUNDEFINED_SANITIZER=ON"
+    #     - UBSAN_OPTIONS="print_stacktrace=1:halt_on_error=1"
+    #     - LLVM_SYMBOLIZER_PATH="$(which llvm-symbolizer)"
 
-    - name: "clang 8"
-      addons: &clang8
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-xenial-8
-          packages:
-            - clang-8
-            - libstdc++-8-dev
-      env: MATRIX_EVAL="CXX=clang++-8 BUILD_TYPE=Debug"
+    # - name: "clang 8"
+    #   addons: &clang8
+    #     apt:
+    #       sources:
+    #         - ubuntu-toolchain-r-test
+    #         - llvm-toolchain-xenial-8
+    #       packages:
+    #         - clang-8
+    #         - libstdc++-8-dev
+    #   env: MATRIX_EVAL="CXX=clang++-8 BUILD_TYPE=Debug"
 
     - name: "include what you use"
       addons:
