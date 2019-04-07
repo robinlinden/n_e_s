@@ -11,6 +11,7 @@ environment:
 
   - TOOLCHAIN: Msvc 2017 x64
     GENERATOR: Visual Studio 15 2017 Win64
+    CXXFLAGS: /analyze
 
   - TOOLCHAIN: Msvc 2017 x64/Ninja
     GENERATOR: Ninja
